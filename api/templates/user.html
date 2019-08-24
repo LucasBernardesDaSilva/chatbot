@@ -1,0 +1,18 @@
+{% extends "base.html"%}
+{%block boby%}
+<div class="row">
+	<div class="col-lg-12">
+		<h2 style="margin-top: 0">{{UserTelegram.first_name}} {{UserTelegram.last_name}} </h2>
+		<strong>Mensagens do aluno</strong>
+				{%if Msg %}
+					<ul class="list-group list-group-flush">
+					{%for user in Msg %}
+					<li class="list-group-item"> {{user.text}}</li>
+					{%endfor%}	
+					</ul>
+				{%else%}
+					<h6>Não a Mensagens</h6>
+				{%endif%}
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="vierport" content="width=device-width">
+	<link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
+	<link rel="stylesheet" href="{% static "css/main.css" %}">
+	<title>ChatBot</title>
+</head>
+<body>
+	<div class="container">
+		<div class="header">
+			<ul class="nav nav-pills float-right">
+				<li class="nav-item" ><a nav-link active href="{% url 'index' %}">Home</a></li>
+				<li class="nav-item" ><a nav-link active href="{% url 'logout' %}">Logout </a></li>
+			</ul>
+			<h3 class="text-muted">Chatboot</h3>
+			<h6 class="text-muted">Ben-vindo: {{name}} </h6>
+		</div>	
+		<div class="row content">
+		{% block boby %}
+		{% endblock %}		
+		</div>
+	</div>	
+</body>
+</html>

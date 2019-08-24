@@ -1,0 +1,20 @@
+{% extends "base.html"%}
+{% block boby %}
+<div class="col-lg-12">
+	<div class="panel panel-default"> 
+		<div class="panel-heading">
+			<strong>Todos os usuarios</strong>
+		</div>	
+		{%if UserTelegram %}
+			<div class="list-group">
+			{%for user in UserTelegram%}
+			<a class="list-group-item list-group-item-action" href="{% url 'exibir' user.id %}">{{user.first_name}} {{user.last_name}}</a>
+			{%endfor%}	
+			</div>
+		{%else%}
+	<h1>Não ha usuarios cadastrados</h1>
+{%endif%}
+	</div>	
+</div>
+
+{% endblock %}
