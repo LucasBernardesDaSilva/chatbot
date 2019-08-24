@@ -1,6 +1,6 @@
 
 from .constants import *
-import ibm_watson   
+import ibm_watson
 from .models import LastUserContext
 from .utils import action
 import requests
@@ -9,12 +9,12 @@ import datetime
 import pytz
 
 
-def process(text, user,workspace_watson):
+def process(text, user, workspace_watson):
     conversation = ibm_watson.AssistantV1(
-        version='2019-02-28',
-        iam_apikey='xRDqCzWIq_2l-nKIzDNjPVlfgkCwwZoHgUcDdJxyjLTz',
-        url='https://gateway.watsonplatform.net/assistant/api'
-        )
+        version=VERSION_WATSON,
+        iam_apikey=API_KEY,
+        url=URL
+    )
     last_user_context = LastUserContext.objects.filter(user=user)
     context = None
     if last_user_context:
@@ -23,7 +23,8 @@ def process(text, user,workspace_watson):
             context = last_user_context.context
             context = ast.literal_eval(context)
 
-    response = conversation.message(workspace_id = workspace_watson, input={'text': text}, context=context).get_result()
+    response = conversation.message(workspace_id=workspace_watson, input={
+                                    'text': text}, context=context).get_result()
     output = response.get('output')
     new_context = response.get('context')
     if last_user_context:
@@ -59,8 +60,10 @@ def send_photo(image, chat_id):
     files = {'photo': image}
     requests.post(url, files=files, data=data)
 
+
 def sem_permissao(user):
-    text = "Ops, {} você não está autorizado a usar esse Boot, Por favor contate o administrador do sistema".format(user.first_name)
+    text = "Ops, {} você não está autorizado a usar esse Boot, Por favor contate o administrador do sistema".format(
+        user.first_name)
     url = 'https://api.telegram.org/bot{}/sendMessage'.format(TOKEN_TELEGRAM)
-    data = {'chat_id': user.chat_id ,'text': text}
+    data = {'chat_id': user.chat_id, 'text': text}
     requests.post(url, data=data)

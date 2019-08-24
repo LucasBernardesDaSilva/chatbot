@@ -52,11 +52,15 @@ class LastUserContext(models.Model):
         db_table = 'last_user_context'
 
 
-class ListFundamentos(models.Model):
-    grr = models.CharField(max_length=100, blank=True,)
+class Permissoes(models.Model):
+    user = models.OneToOneField(UserTelegram, on_delete=models.CASCADE)
+    arquitetura = models.BooleanField(default=False)
+    algoritimos = models.BooleanField(default=False)
 
+    def __str__(self):
+        return(self.user.first_name)
 
-class ListAlgoritimos(models.Model):
-    grr = models.CharField(max_length=100, blank=True,)
+    class Meta:
+        db_table = 'permissoes'
 
 # Create your models here.

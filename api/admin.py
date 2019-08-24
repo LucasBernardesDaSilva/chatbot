@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import UserTelegram, LastUserContext, Message, ListFundamentos, ListAlgoritimos
+from .models import UserTelegram, LastUserContext, Message, Permissoes
 
 
 @admin.register(UserTelegram)
@@ -19,12 +19,7 @@ class MessageAdmin(admin.ModelAdmin):
     list_display = ['id', 'user', 'text', 'created_dt']
     search_fields = ['id', 'text', 'user']
 
-@admin.register(ListFundamentos)
-class ListFundamentosAdmin(admin.ModelAdmin):
-    list_display = ['grr']
-    search_fields = ['grr']
-
-@admin.register(ListAlgoritimos)
-class ListAlgoritimosAdmin(admin.ModelAdmin):
-    list_display = ['grr']
-    search_fields = ['grr']
+@admin.register(Permissoes)
+class PermissoesAdmin(admin.ModelAdmin):
+    list_display = ['user', 'arquitetura', 'algoritimos' ]
+    search_fields = ['user']
