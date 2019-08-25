@@ -1,7 +1,7 @@
 
 from .constants import *
 import ibm_watson
-from .models import LastUserContext
+from .models import LastUserContext, Message
 from .utils import action
 import requests
 import ast
@@ -32,6 +32,8 @@ def process(text, user, workspace_watson):
         last_user_context.save()
     else:
         LastUserContext.objects.create(user=user, context=new_context)
+
+    salva_resposta(output)
 
     action_name = output.get('action')
     if action_name:
@@ -67,3 +69,10 @@ def sem_permissao(user):
     url = 'https://api.telegram.org/bot{}/sendMessage'.format(TOKEN_TELEGRAM)
     data = {'chat_id': user.chat_id, 'text': text}
     requests.post(url, data=data)
+
+
+def salva_resposta(output):
+    ultimo_id = Message.objects.latest('id').pk
+    message = Message.objects.get(id = ultimo_id)
+    message.respota = output.get('text')[0]
+    message.save()

@@ -25,7 +25,8 @@ class Message(models.Model):
     user = models.ForeignKey(UserTelegram, on_delete=models.CASCADE)
     created_dt = models.DateTimeField(auto_now=True, blank=True, null=True)
     text = models.TextField()
-    respondida = models.BooleanField(default=False)
+    nao_entendida = models.BooleanField(default=False)
+    respota = models.TextField()
 
     def __unicode__(self):
         return (self.text)

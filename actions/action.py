@@ -11,8 +11,9 @@ class Action:
         self.user = user
         self.text = output['output']['text'][0]
 
-    def add_grr(self):
-        self.user.grr = self.output['context']['number']
-        self.user.save()
-
-        return [{'type':'text','text': self.text}]
+    def falhou(self):
+        ultimo_id = Message.objects.latest('id').pk
+        message = Message.objects.get(id = ultimo_id)
+        message.nao_entendida = True
+        message.save()
+        return [{'type': 'text', 'text': self.text}]

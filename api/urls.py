@@ -4,5 +4,4 @@ from api import views
 
 urlpatterns = [
     path('event/', views.event),
-    re_path(r'^user/(?P<user_id>\d+)$',views.exibir, name="exibir"),
 ]
