@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 @csrf_exempt
 def event(requests):
     try:
-        json_request = json.loads(requests.body)
+        json_request = json.loads(requests.body.decode('utf-8'))
         chat_id = json_request['message']['chat']['id']
         message_id = json_request['message']['message_id']
         text = json_request['message']['text']
