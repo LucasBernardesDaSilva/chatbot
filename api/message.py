@@ -1,7 +1,7 @@
 
 from .constants import *
 import ibm_watson
-from .models import LastUserContext, Message
+from .models import LastUserContext, Message, UserTelegram
 from .utils import action
 import requests
 import ast
@@ -73,6 +73,16 @@ def sem_permissao(user):
 
 def salva_resposta(output):
     ultimo_id = Message.objects.latest('id').pk
-    message = Message.objects.get(id = ultimo_id)
+    message = Message.objects.get(id=ultimo_id)
     message.respota = output.get('text')[0]
     message.save()
+
+
+def send_all(text):
+    users = UserTelegram.objects.all()
+    for user in users:
+        print(user)
+        url = 'https://api.telegram.org/bot{}/sendMessage'.format(
+            TOKEN_TELEGRAM)
+        data = {'chat_id': user.chat_id, 'text': text}
+        requests.post(url, data=data)
