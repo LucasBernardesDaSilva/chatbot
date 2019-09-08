@@ -64,4 +64,17 @@ class Permissoes(models.Model):
     class Meta:
         db_table = 'permissoes'
 
+class intents_cont(models.Model):
+    intent = models.CharField(max_length=100)
+    entity = models.CharField(max_length=100)
+    total = models.IntegerField(default=0)
+
+    def __str__(self):
+        return(self.intent)
+
+    class Meta:
+        db_table = 'intent_cont'
+
+
+
 # Create your models here.

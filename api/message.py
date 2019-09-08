@@ -1,7 +1,7 @@
 
 from .constants import *
 import ibm_watson
-from .models import LastUserContext, Message, UserTelegram
+from .models import LastUserContext, Message, UserTelegram, intents_cont
 from .utils import action
 import requests
 import ast
@@ -26,6 +26,9 @@ def process(text, user, workspace_watson):
     response = conversation.message(workspace_id=workspace_watson, input={
                                     'text': text}, context=context).get_result()
     output = response.get('output')
+    intents = response.get('intents')
+    entities = response.get('entities')
+
     new_context = response.get('context')
     if last_user_context:
         last_user_context.context = new_context
@@ -34,6 +37,7 @@ def process(text, user, workspace_watson):
         LastUserContext.objects.create(user=user, context=new_context)
 
     salva_resposta(output)
+    salvar_intents(intents, entities)
 
     action_name = output.get('action')
     if action_name:
@@ -86,3 +90,21 @@ def send_all(text):
             TOKEN_TELEGRAM)
         data = {'chat_id': user.chat_id, 'text': text}
         requests.post(url, data=data)
+
+
+def salvar_intents(intents, entities):
+    intent = intents[0]['intent']
+    if entities:
+        entity = entities[0]['entity']
+    else:
+        entity = 'null'
+
+    intent_total = intents_cont.objects.filter(intent=intent, entity=entity)
+    if intent_total:
+        intent = intent_total.get()
+        intent.total = intent.total + 1
+        intent.save()
+    else:
+        intent_total = intents_cont.objects.create(
+            intent=intent, entity=entity, total=1)
+        intent_total.save()
