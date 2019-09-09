@@ -37,7 +37,7 @@ def event(requests):
                 chat_id=chat_id, first_name=first_name, last_name=last_name)
             Permissoes.objects.create(user=user)
 
-        Message.objects.create(id=message_id, user=user, text=text)
+        Message.objects.create(user=user, text=text)
 
         if user.active:
             message.process(text, user, workspace_watson)
