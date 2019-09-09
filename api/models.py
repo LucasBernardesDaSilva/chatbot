@@ -21,7 +21,6 @@ class UserTelegram(models.Model):
 
 
 class Message(models.Model):
-    id = models.IntegerField(primary_key=True)
     user = models.ForeignKey(UserTelegram, on_delete=models.CASCADE)
     created_dt = models.DateTimeField(auto_now=True, blank=True, null=True)
     text = models.TextField()
