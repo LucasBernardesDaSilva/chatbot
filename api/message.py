@@ -25,6 +25,7 @@ def process(text, user, workspace_watson):
 
     response = conversation.message(workspace_id=workspace_watson, input={
                                     'text': text}, context=context).get_result()
+
     output = response.get('output')
     intents = response.get('intents')
     entities = response.get('entities')
@@ -37,7 +38,7 @@ def process(text, user, workspace_watson):
         LastUserContext.objects.create(user=user, context=new_context)
 
     salva_resposta(output)
-    salvar_intents(intents, entities)
+    salvar_intents(intents, entities,output)
 
     action_name = output.get('action')
     if action_name:
@@ -92,8 +93,12 @@ def send_all(text):
         requests.post(url, data=data)
 
 
-def salvar_intents(intents, entities):
-    intent = intents[0]['intent']
+def salvar_intents(intents, entities, output):
+    if intents:
+       intent = intents[0]['intent']
+    else:
+        intent = 'Não respondeu'
+
     if entities:
         entity = entities[0]['entity']
     else:
